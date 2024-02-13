@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    #slider-container {
+      width: 300px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #slider {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slide {
+      min-width: 300px;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+
+<div id="slider-container">
+  <div id="slider">
+    <img class="slide" src="./img/mainvisual1.jpg">
+    <img class="slide" src="./img/mainvisual2.jpg">
+    <img class="slide" src="./img/mainvisual3.jpg">
+    <img class="slide" src="./img/mainvisual4.jpg">
+    <img class="slide" src="./img/mainvisual5.jpg">
+    <img class="slide" src="./img/mainvisual1.jpg">
+  </div>
+</div>
+
+<script>
+  const slider = document.getElementById('slider');
+  let currentIndex = 0;
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % slider.children.length;
+    updateSlider();
+  }
+
+  function translateSlider() {
+    slider.style.transform = `translateX(${-currentIndex * 100}%)`;
+  }
+
+  function transformSlider() {
+    slider.style.transition = 'transform 0.5s ease-in-out';
+  }
+
+
+  function updateSlider() {
+    if (currentIndex === 0) {
+      slider.style.transition = 'none';
+      translateSlider()
+      void slider.offsetWidth; 
+      currentIndex = 1;
+      transformSlider()
+      translateSlider()
+    } else {
+      transformSlider()
+      translateSlider()
+    }
+  }
+
+
+  slider.addEventListener('transitionend', () => {
+    if (currentIndex === 0) {
+      slider.style.transition = 'none';
+      slider.style.transform = 'translateX(0)';
+      void slider.offsetWidth; 
+      setTimeout(() => {
+      transformSlider()
+      }, 0);
+    }
+  });
+
+  setInterval(nextSlide, 500);
+</script>
+
+</body>
+</html>
